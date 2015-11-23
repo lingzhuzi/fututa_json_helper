@@ -9,12 +9,23 @@
         addFormatButton();
         addMaxButton();
 
+        addShotTitle();
       }
     }, 1000);
+
 
     function iframeExists(){
       $iframe = $(iframeSelector).contents();
       return $iframe.size() > 0;
+    }
+
+    function addShotTitle(){
+      var title = $iframe.find("#form_bk_lname").val();
+      var $shotTitle = $iframe.find("#form_bk_short_title");
+      if($shotTitle.val() == ''){
+        $shotTitle.val(title);
+        $shotTitle.parent().append("（请保存）");
+      }
     }
 
     function addFormatButton(){
