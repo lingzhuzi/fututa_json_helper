@@ -24,6 +24,7 @@
       var $shotTitle = $iframe.find("#form_bk_short_title");
       if($shotTitle.val() == ''){
         $shotTitle.val(title);
+        $shotTitle.after(title.length);
         $shotTitle.parent().append("（请保存）");
       }
     }
