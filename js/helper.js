@@ -1,10 +1,11 @@
-(function () {
-  $(function () {
+(function() {
+  $(function() {
 
-    var iframeSelector = "#atrDialogIframe_save", $iframe;
+    var iframeSelector = "#atrDialogIframe_save",
+      $iframe;
 
-    setInterval(function(){
-      if(iframeExists()){
+    setInterval(function() {
+      if (iframeExists()) {
 
         addFormatButton();
         addMaxButton();
@@ -14,44 +15,47 @@
     }, 1000);
 
 
-    function iframeExists(){
+    function iframeExists() {
       $iframe = $(iframeSelector).contents();
       return $iframe.size() > 0;
     }
 
-    function addShotTitle(){
+    function addShotTitle() {
       var title = $iframe.find("#form_bk_lname").val();
-      var $shotTitle = $iframe.find("#form_bk_short_title");
-      if($shotTitle.val() == ''){
-        $shotTitle.val(title);
-        $shotTitle.after(title.length);
-        $shotTitle.parent().append("（请保存）");
+      var $shortTitle = $iframe.find("#form_bk_short_title");
+      if ($shortTitle.val() == '') {
+        $shortTitle.val(title);
+        $shortTitle.next().text(title.length);
+        var $span = $shortTitle.parent().find(".save-span");
+        if ($span.length == 0){
+          $shortTitle.parent().append("<span class='save-span'>（请保存）</span>");
+        }
       }
     }
 
-    function addFormatButton(){
+    function addFormatButton() {
       var $btnCtn = $(".aui_buttons:visible");
       var hasExists = $btnCtn.find(".format_btn").size() > 0;
-      if(!hasExists){
+      if (!hasExists) {
         $btnFormat = $('<button class="aui_state_highlight format_btn" type="button">转码</button>');
 
         $btnCtn.prepend($btnFormat);
 
-        $btnCtn.find(".format_btn").click(function(){
+        $btnCtn.find(".format_btn").click(function() {
           formatList("#xlist");
           formatList("#ylist");
         });
       }
     }
 
-    function formatList(selector){
+    function formatList(selector) {
       var $textArea = $iframe.find(selector);
       var jsonVal = $textArea.val();
       var formatedJson = JSON.stringify(JSON.parse(jsonVal), null, "    ");
       $textArea.val(formatedJson);
     }
 
-    function addMaxButton(){
+    function addMaxButton() {
       var $content = $(iframeSelector).parents("div.aui_content");
       $content.width('100%');
       $content.height('100%');
@@ -59,11 +63,14 @@
       $(iframeSelector).height('100%');
 
       var $titleBar = $(iframeSelector).parents('.aui_dialog').find('.aui_titleBar');
-      if($titleBar.find('.aui_max').size() == 0){
+      if ($titleBar.find('.aui_max').size() == 0) {
         $titleBar.find('.aui_close').before('<a class="aui_max aui_close" style="margin-right:20px;" href="javascript:void(0);" style="display: block;">o</a>');
-        $titleBar.find('.aui_max').click(function(){
+        $titleBar.find('.aui_max').click(function() {
           var $win = $(iframeSelector).parents("div.aui_state_focus");
-          $win.css({left: 0, top: 0});
+          $win.css({
+            left: 0,
+            top: 0
+          });
           $win.width($('body').width());
           $win.height($('body').height());
 
