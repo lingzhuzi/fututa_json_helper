@@ -27,7 +27,7 @@
         $shortTitle.val(title);
         $shortTitle.next().text(title.length);
         var $span = $shortTitle.parent().find(".save-span");
-        if ($span.length == 0){
+        if ($span.length == 0) {
           $shortTitle.parent().append("<span class='save-span'>（请保存）</span>");
         }
       }
@@ -42,8 +42,8 @@
         $btnCtn.prepend($btnFormat);
 
         $btnCtn.find(".format_btn").click(function() {
-          formatList("#xlist");
-          formatList("#ylist");
+          formatList("[name='info[xlist]']");
+          formatList("[name='info[ylist]']");
         });
       }
     }
@@ -51,8 +51,10 @@
     function formatList(selector) {
       var $textArea = $iframe.find(selector);
       var jsonVal = $textArea.val();
-      var formatedJson = JSON.stringify(JSON.parse(jsonVal), null, "    ");
-      $textArea.val(formatedJson);
+      if (jsonVal) {
+        var formatedJson = JSON.stringify(JSON.parse(jsonVal), null, "    ");
+        $textArea.val(formatedJson);
+      }
     }
 
     function addMaxButton() {
